@@ -15,18 +15,33 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        let str = convert("PAYPALISHIRING", 3)
-//        let num = myAtoi("20000000000000000000")
+        let t = twoSum([3,3,3], 6)
         
-//        let string3 = reverseWords("  hello world! asdad asasdasd asdasdas ssss")
-        
-        let _ = intToRoman(20)
     }
 
 }
 
 
 // MARK: Data Structure - Array
+
+/// 两数之和
+func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+    guard nums.count >= 2 else { return [] }
+    
+    var numMap:[Int: Int] = [Int: Int]()
+    for index in 0..<nums.count {
+        numMap[nums[index]] = index
+    }
+    
+    for index in 0..<nums.count {
+        let a = nums[index]
+        if let t = numMap[target - a] {
+            if t != index { return [index,t] }
+        }
+    }
+    
+    return []
+}
 
 /// 最大盛水容器
 /// 双指针，移动指向较小元素的指针，计算容积进行对比
@@ -97,6 +112,33 @@ private func quickSort(_ list: inout [Int], _ first: Int, _ last: Int) {
     // 分离成两部分继续进行交换操作
     quickSort(&list, first, _first - 1)
     quickSort(&list, _last + 1, last)
+}
+
+/// 三数之和
+func threeSum(_ nums: [Int]) -> [[Int]] {
+    guard nums.count >= 3 else { return [] }
+    var sortedNums = nums
+    var result:[[Int]] = []
+    quickSort(&sortedNums, 0, sortedNums.count-1)
+    
+    // 没有负数
+    if sortedNums.first! > 0 { return [] }
+    
+    var positive_index = 0
+    for index in 0..<sortedNums.count {
+        if sortedNums[index] >= 0 {
+            positive_index = index
+            break
+        }
+    }
+    
+    // 没有正数
+    if positive_index == 0 { return [] }
+    
+    var negative_index = 0
+    
+    
+    return result
 }
 
 // MARK: Data Structure - String
