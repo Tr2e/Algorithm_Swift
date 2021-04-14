@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let t = twoSum([3,3,3], 6)
+        let nums = threeSum([0,0])
         
     }
 
@@ -41,6 +41,148 @@ func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
     }
     
     return []
+}
+
+/// 三数之和
+
+/// 暴力循环，超时
+func threeSum(_ nums: [Int]) -> [[Int]] {
+    guard nums.count >= 3 else { return [] }
+    
+    let sortedNums = nums.sorted()
+    var result:[[Int]] = []
+
+    // 没有负数
+    if sortedNums.first! > 0 { return [] }
+    
+    var positive_index = -1
+    for index in 0..<sortedNums.count {
+        if sortedNums[index] >= 0 {
+            positive_index = index
+            break
+        }
+    }
+    
+    // 没有非负数
+    if positive_index == -1 { return [] }
+    
+    for level_1 in 0..<sortedNums.count {
+        let num_1 = sortedNums[level_1]
+        for level_2 in (level_1 + 1)..<sortedNums.count {
+            let num_2 = sortedNums[level_2]
+            if num_1 + num_2 > 0 { break }
+            for level_3 in max(level_2+1, positive_index)..<sortedNums.count {
+                let num_3 = sortedNums[level_3]
+                if num_1 + num_2 + num_3 == 0 {
+                    let list = [num_1,num_2,num_3]
+                    if (!result.contains(list)) {
+                        result.append(list)
+                    }
+                }
+            }
+        }
+    }
+    
+    return result
+}
+
+/// 优化后，使用双指针（官解）
+func threeSum_(_ nums: [Int]) -> [[Int]] {
+    guard nums.count >= 3 else { return [] }
+    
+    // 排序
+    let sortedNums = nums.sorted()
+    var result:[[Int]] = []
+
+// 这东西还挺耗时的😔
+//    // 没有非正数
+//    if sortedNums.first! > 0 { return [] }
+//
+//    // 没有非负数
+//    if sortedNums.last! < 0 { return [] }
+    
+    // 遍历
+    for level_1 in 0..<sortedNums.count {
+        let num_1 = sortedNums[level_1]
+        
+        // 当前数跟前一个相等，跳过
+        if (level_1 > 0 && num_1 == sortedNums[level_1 - 1]) {
+            continue
+        }
+        
+        // 指向末尾
+        var level_3 = sortedNums.count - 1
+        for level_2 in (level_1 + 1)..<sortedNums.count {
+            let num_2 = sortedNums[level_2]
+            
+            // 当前数跟前一个相等，跳过
+            if level_2 > (level_1 + 1) && num_2 == sortedNums[level_2 - 1] {
+                continue
+            }
+            
+            // level_2 要在 level_3 左边
+            while level_2 < level_3 && num_1 + num_2 + sortedNums[level_3] > 0 {
+                level_3 -= 1
+            }
+            
+            // 跳出
+            if (level_2 == level_3) { break }
+            
+            let num_3 = sortedNums[level_3]
+            if num_1 + num_2 + num_3 == 0 {
+                let list = [num_1,num_2,num_3]
+                result.append(list)
+            }
+        }
+        
+    }
+    
+    return result
+}
+
+/// 优化后，使用双指针
+func threeSum__(_ nums: [Int]) -> [[Int]] {
+    guard nums.count >= 3 else { return [] }
+    // 排序
+    let sortedNums = nums.sorted()
+    var result:[[Int]] = []
+    
+    for (index, level_1) in sortedNums.enumerated() {
+        // 跳过相同值
+        if index > 0 && sortedNums[index - 1] == level_1 {
+            continue
+        }
+        var left = index + 1
+        var right = sortedNums.count - 1
+        
+        // 第二层数据指针始终在左边
+        while left < right {
+            let level_2 = sortedNums[left]
+            let level_3 = sortedNums[right]
+            let res = level_1 + level_2 + level_3
+            if res < 0 {
+                left += 1
+            } else if res > 0 {
+                right -= 1
+            } else {
+                result.append([level_1, level_2, level_3])
+                // 移动左指针，剔除相同的值
+                while left < right && sortedNums[left] == sortedNums[left + 1] {
+                    left += 1
+                }
+                // 移动右指针，提出相同的值
+                while left < right && sortedNums[right] == sortedNums[right - 1] {
+                    right -= 1
+                }
+                // 左移
+                left += 1
+                // 右移
+                right -= 1
+            }
+        }
+    }
+    
+    return result
 }
 
 /// 最大盛水容器
@@ -112,33 +254,6 @@ private func quickSort(_ list: inout [Int], _ first: Int, _ last: Int) {
     // 分离成两部分继续进行交换操作
     quickSort(&list, first, _first - 1)
     quickSort(&list, _last + 1, last)
-}
-
-/// 三数之和
-func threeSum(_ nums: [Int]) -> [[Int]] {
-    guard nums.count >= 3 else { return [] }
-    var sortedNums = nums
-    var result:[[Int]] = []
-    quickSort(&sortedNums, 0, sortedNums.count-1)
-    
-    // 没有负数
-    if sortedNums.first! > 0 { return [] }
-    
-    var positive_index = 0
-    for index in 0..<sortedNums.count {
-        if sortedNums[index] >= 0 {
-            positive_index = index
-            break
-        }
-    }
-    
-    // 没有正数
-    if positive_index == 0 { return [] }
-    
-    var negative_index = 0
-    
-    
-    return result
 }
 
 // MARK: Data Structure - String
