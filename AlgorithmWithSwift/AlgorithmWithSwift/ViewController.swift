@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let nums = threeSum([0,0])
+        let nums = threeSumClosest([-1,2,1,-4], 1)
         
     }
 
@@ -180,6 +180,42 @@ func threeSum__(_ nums: [Int]) -> [[Int]] {
                 right -= 1
             }
         }
+    }
+    
+    return result
+}
+
+/// 最接近的三数之和
+func threeSumClosest(_ nums: [Int], _ target: Int) -> Int {
+    guard nums.count >= 3 else { return 0 }
+    var result: Int = Int(powf(10, 4))
+    
+    let sortedArray = nums.sorted()
+    
+    for (index_1, level_1) in sortedArray.enumerated() {
+        if index_1 > 0 && sortedArray[index_1 - 1] == level_1 {
+            continue
+        }
+        
+        for index_2 in (index_1 + 1)..<sortedArray.count {
+            let level_2 = sortedArray[index_2]
+            if index_2 > (index_1 + 1) && sortedArray[index_2 - 1] == level_2 {
+                continue
+            }
+            
+            for index_3 in (index_2 + 1)..<sortedArray.count {
+                let level_3 = sortedArray[index_3]
+                if index_3 > (index_2 + 1) && sortedArray[index_3 - 1] == level_3 {
+                    continue
+                }
+                
+                let res = level_1 + level_2 + level_3
+                if abs(target - res) < abs(target - result) {
+                    result = res
+                }
+            }
+        }
+        
     }
     
     return result
