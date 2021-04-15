@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let nums = threeSumClosest([0,2,1,-3], 1)
+        let nums = letterCombinations("23")
         
     }
 
@@ -304,6 +304,50 @@ private func quickSort(_ list: inout [Int], _ first: Int, _ last: Int) {
 }
 
 // MARK: Data Structure - String
+
+/// 回溯：题目中出现所有组合，第一时间要想到回溯
+/// 电话号码的字母组合
+func letterCombinations(_ digits: String) -> [String] {
+    let number_map: [String: [String]] = [
+        "2" : ["a","b","c"],
+        "3" : ["d","e","f"],
+        "4" : ["g","h","i"],
+        "5" : ["j","k","l"],
+        "6" : ["m","n","o"],
+        "7" : ["p","q","r","s"],
+        "8" : ["t","u","v"],
+        "9" : ["w","x","y","z"]
+    ]
+    
+    var result = [String]()
+    
+    var temp = [[String]()];
+        temp.removeAll();
+    for char in digits {
+        let arr = number_map[String(char)]!;
+        temp.append(arr);
+    }
+    var index = 0;
+    
+    var tempResult = [String]();
+    while index < temp.count {
+        result.removeAll();
+        let arr = temp[index];
+        for char in arr {
+            if tempResult.count > 0 {
+                for preChar in tempResult {
+                    result.append(preChar.appending(char));
+                }
+            }else {
+                result.append(char);
+            }
+        }
+        tempResult = result;
+        index += 1;
+    }
+    return result
+}
+
 
 /// 贪心算法：当前时间做出最佳可能决策的算法，取出最大可能的目标
 /// 整数转罗马数字
