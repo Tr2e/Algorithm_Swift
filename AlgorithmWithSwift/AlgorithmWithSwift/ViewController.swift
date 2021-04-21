@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let nums = letterCombinations("23")
+        let nums = fourSum([1,-2,-5,-4,-3,3,3,5], -11)
         
     }
 
@@ -232,6 +232,55 @@ func threeSumClosest(_ nums: [Int], _ target: Int) -> Int {
     return result
 }
 
+
+func fourSum(_ nums: [Int], _ target: Int) -> [[Int]] {
+    guard nums.count >= 4 else { return [] }
+    var result:[[Int]] = []
+    let sorted = nums.sorted()
+    
+    for index_1 in 0..<sorted.count-3 {
+        
+        let level_1 = sorted[index_1]
+        if level_1 + sorted[index_1 + 1] + sorted[index_1 + 2] + sorted[index_1 + 3] > target { break }
+        if index_1 > 0 && level_1 == sorted[index_1-1]{ continue }
+        
+        for index_2 in index_1+1..<sorted.count-2 {
+            
+            let level_2 = sorted[index_2]
+            if level_1 + level_2 + sorted[index_2 + 1] + sorted[index_2 + 2] > target { break }
+            if index_2 > index_1+1 && level_2 == sorted[index_2-1]{ continue }
+            
+            var left = index_2 + 1
+            var right = sorted.count - 1
+            
+            while left < right {
+                
+                let left_num = sorted[left]
+                let right_num = sorted[right]
+                let temp = level_1 + level_2 + left_num + right_num
+                
+                if temp > target {
+                    right -= 1
+                } else if temp < target {
+                    left += 1
+                } else {
+                    result.append([level_1, level_2, left_num, right_num])
+                    while left < right && left_num == sorted[left+1] {
+                        left += 1
+                    }
+                    while left < right && right_num == sorted[right-1] {
+                        right -= 1
+                    }
+                    left += 1
+                    right -= 1
+                }
+            }
+        }
+    }
+    
+    return result
+}
+
 /// 最大盛水容器
 /// 双指针，移动指向较小元素的指针，计算容积进行对比
 func maxArea(_ height: [Int]) -> Int {
@@ -305,7 +354,7 @@ private func quickSort(_ list: inout [Int], _ first: Int, _ last: Int) {
 
 // MARK: Data Structure - String
 
-/// 回溯：题目中出现所有组合，第一时间要想到回溯
+/// 回溯：题目中出现所有组合，第一时间要想到搜索算法，深度优先或广度优先
 /// 电话号码的字母组合
 func letterCombinations(_ digits: String) -> [String] {
     let number_map: [String: [String]] = [
@@ -338,7 +387,7 @@ func letterCombinations(_ digits: String) -> [String] {
                 for preChar in tempResult {
                     result.append(preChar.appending(char));
                 }
-            }else {
+            } else {
                 result.append(char);
             }
         }
