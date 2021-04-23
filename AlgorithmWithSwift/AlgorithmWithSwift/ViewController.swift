@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let nums = fourSum([1,-2,-5,-4,-3,3,3,5], -11)
+        let result = generateParenthesis(8)
         
     }
 
@@ -353,6 +353,68 @@ private func quickSort(_ list: inout [Int], _ first: Int, _ last: Int) {
 }
 
 // MARK: Data Structure - String
+
+/**
+ *数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+ 
+
+ 示例 1：
+
+ 输入：n = 3
+ 输出：["((()))","(()())","(())()","()(())","()()()"]
+ 示例 2：
+
+ 输入：n = 1
+ 输出：["()"]]
+ */
+
+/// 合成括号
+func generateParenthesis(_ n: Int) -> [String] {
+    guard n > 0 else { return [] }
+    
+    var result: [String] = []
+    
+    var temp: [String] = []
+    let parenthesis = ["(", ")"]
+
+    for _ in 0..<2*n {
+        if temp.count == 0 {
+            temp.append(parenthesis.first!)
+            temp.append(parenthesis.last!)
+        } else {
+            var temp1: [String] = []
+            for phs in parenthesis {
+                for sub in temp {
+                    var expending = sub
+                    expending.append(phs)
+                    temp1.append(expending)
+                }
+            }
+            temp = temp1
+        }
+    }
+    
+    for target in temp {
+        if target.first == ")" { continue }
+        var stack = [Character]()
+        for char in target {
+            if char == "(" {
+                stack.append(char)
+            } else {
+                if stack.last == "(" {
+                    stack.removeLast()
+                } else {
+                    stack.append(char)
+                }
+            }
+        }
+        if stack.count == 0 {
+            result.append(target)
+        }
+    }
+    
+    return result
+}
 
 /// 回溯：题目中出现所有组合，第一时间要想到搜索算法，深度优先或广度优先
 /// 电话号码的字母组合
