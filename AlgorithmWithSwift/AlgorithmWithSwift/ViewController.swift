@@ -1019,7 +1019,9 @@ func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
         slow = slow?.next
     }
     
-    return head
+    slow?.next = slow?.next?.next
+    
+    return sentinal.next
     
 //    var current = head
 //    var length = 0
