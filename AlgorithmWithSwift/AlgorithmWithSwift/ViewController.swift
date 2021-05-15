@@ -96,6 +96,25 @@ private func insertionSort(_ list: [Int]) -> [Int] {
     return result
 }
 
+/// 二分查找
+/// 时间复杂度：O(logn)
+private func binarySearch(_ list: [Int],_ target: Int) -> Int {
+    guard list.count > 0 else { return -1 }
+    var begin = 0
+    var end = list.count
+    while begin < end {
+        let middle: Int = (begin + end) >> 1
+        if list[middle] > target {
+            end = middle
+        } else if list[middle] < target {
+            begin = middle
+        } else {
+            return middle
+        }
+    }
+    return -1
+}
+
 /// 快排 (Quick Sort)
 /// 稳定：不稳定排序
 /// 思想：双指针 Divide & Conquer
