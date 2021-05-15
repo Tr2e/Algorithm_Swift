@@ -15,11 +15,126 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let result = generateParenthesis(8)
+        let toSortList = [9,8,7,6,6,6,4,10,2,1]
+        var toQuickSort = toSortList
+        // sorted: [1,2,4,6,6,6,7,8,9,10]
+        let bubble = bubbleSort(toSortList)
+        let selection = selectionSort(toSortList)
+        let insertion = insertionSort(toSortList)
+        quickSort(&toQuickSort, 0, toQuickSort.count-1)
         
     }
 
 }
+
+// MARK: Sort
+
+/// 冒泡排序
+/// 稳定：稳定排序
+/// 思想：从前往后扫描，与相邻的元素比较，将较大的元素交换到后边
+/// 时间复杂度：与序列中的逆序对数量正相关
+/// 最好时间复杂度 O(n)
+/// 最坏时间复杂度 O(n^2)
+private func bubbleSort(_ list: [Int]) -> [Int] {
+    guard list.count > 1 else { return list }
+    var result: [Int] = list
+    for index in 1...result.count-1 {
+        let end = list.count - index
+        for begin in 1...end {
+            if result[begin] < result[begin-1] {
+                let temp = result[begin]
+                result[begin] = result[begin-1]
+                result[begin-1] = temp
+            }
+        }
+    }
+    return result
+}
+
+/// 选择排序
+/// 稳定：不稳定排序
+/// 思想：从0位置往后扫描数据，保证扫描结束位置为本轮扫描最大值
+/// 时间复杂度: O(n^2)
+private func selectionSort(_ list: [Int]) -> [Int] {
+    guard list.count > 1 else { return list }
+    var result = list
+    for index in 1...result.count {
+        let end = result.count - index
+        var max = 0
+        // 扫描获取最大值
+        for scanner in 0...end {
+            if result[max] < result[scanner] {
+                max = scanner
+            }
+        }
+        // 放到本轮最后
+        let temp = result[end]
+        result[end] = result[max]
+        result[max] = temp
+    }
+    return result
+}
+
+/// 插入排序
+/// 稳定：稳定排序
+/// 思想：保证数组前方始终有序，将较小的数据向前交换
+/// 时间复杂度：与序列中的逆序对数量正相关
+/// 最好时间复杂度 O(n)
+/// 最坏时间复杂度 O(n^2)
+private func insertionSort(_ list: [Int]) -> [Int] {
+    guard list.count > 1 else { return list }
+    var result: [Int] = list
+    for begin in 1...result.count-1 {
+        var cmpIndex = begin
+        while cmpIndex > 0 && result[cmpIndex] < result[cmpIndex-1] {
+            let temp = result[cmpIndex-1]
+            result[cmpIndex-1] = result[cmpIndex]
+            result[cmpIndex] = temp
+            cmpIndex -= 1
+        }
+    }
+    return result
+}
+
+/// 快排 (Quick Sort)
+/// 稳定：不稳定排序
+/// 思想：双指针 Divide & Conquer
+/// 时间复杂度：
+/// 最好时间复杂度 O(nlogn)
+/// 最坏时间复杂度 O(n^2)
+private func quickSort(_ list: inout [Int], _ first: Int, _ last: Int) {
+    guard last > first else { return }
+    
+    /// conquer
+    let focus = list[first]
+    var _first = first
+    var _last = last
+    while _first != _last {
+        // 从后往前找小的
+        while list[_last] >= focus && _last > _first {
+            _last -= 1
+        }
+        // 从前往后找大的
+        while list[_first] <= focus && _last > _first {
+            _first += 1
+        }
+        // 双指针相遇时，进行交换
+        if _first < _last {
+            let temp = list[_first]
+            list[_first] = list[_last]
+            list[_last] = temp
+        }
+    }
+    // 把目标值换到相遇的位置
+    list[first] = list[_first]
+    list[_first] = focus
+    
+    /// Divide
+    // 分离成两部分继续进行交换操作
+    quickSort(&list, first, _first - 1)
+    quickSort(&list, _last + 1, last)
+}
+
 
 
 // MARK: Data Structure - Array
@@ -314,42 +429,6 @@ func maxArea(_ height: [Int]) -> Int {
     }
     
     return result
-}
-
-
-/// 快排 (Quick Sort)
-/// 使用双指针 进行 Divide & Conquer
-private func quickSort(_ list: inout [Int], _ first: Int, _ last: Int) {
-    guard last > first else { return }
-    
-    /// conquer
-    let focus = list[first]
-    var _first = first
-    var _last = last
-    while _first != _last {
-        // 从后往前找小的
-        while list[_last] >= focus && _last > _first {
-            _last -= 1
-        }
-        // 从前往后找大的
-        while list[_first] <= focus && _last > _first {
-            _first += 1
-        }
-        // 双指针相遇时，进行交换
-        if _first < _last {
-            let temp = list[_first]
-            list[_first] = list[_last]
-            list[_last] = temp
-        }
-    }
-    // 把目标值换到相遇的位置
-    list[first] = list[_first]
-    list[_first] = focus
-    
-    /// Divide
-    // 分离成两部分继续进行交换操作
-    quickSort(&list, first, _first - 1)
-    quickSort(&list, _last + 1, last)
 }
 
 // MARK: Data Structure - String
