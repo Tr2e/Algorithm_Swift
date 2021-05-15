@@ -86,12 +86,21 @@ private func insertionSort(_ list: [Int]) -> [Int] {
     var result: [Int] = list
     for begin in 1...result.count-1 {
         var cmpIndex = begin
+        /*
         while cmpIndex > 0 && result[cmpIndex] < result[cmpIndex-1] {
             let temp = result[cmpIndex-1]
             result[cmpIndex-1] = result[cmpIndex]
             result[cmpIndex] = temp
             cmpIndex -= 1
+        } */
+        let cmpValue = result[cmpIndex]
+        // 挪动
+        while cmpIndex > 0 && cmpValue < result[cmpIndex-1] {
+            result[cmpIndex] = result[cmpIndex-1]
+            cmpIndex -= 1
         }
+        // 插入
+        result[cmpIndex] = cmpValue
     }
     return result
 }
