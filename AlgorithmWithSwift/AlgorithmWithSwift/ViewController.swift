@@ -15,15 +15,9 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        var toSortList = [9,8,7,6,6,6,4,10,2,1]
-        var canChangedSort = toSortList
-        // sorted: [1,2,4,6,6,6,7,8,9,10]
-        let bubble = bubbleSort(toSortList)
-        let selection = selectionSort(toSortList)
-        let insertion = insertionSort(toSortList)
-//        quickSort(&canChangedSort, 0, canChangedSort.count-1)
-        mergeSort(&canChangedSort)
-        
+        var A = [1,2,3,0,0,0]
+        let B = [2,5,6]
+        merge(&A, 3, B, 3)
         
     }
 
@@ -159,7 +153,8 @@ private func merge(_ list: inout [Int], _ begin: Int, _ mid: Int, _ end: Int) {
     
     while temp_left < temp_length {
         // 因为左侧不可能越界，故以右侧为准，对原数组进行交换填充
-        if right_left < end && tempList[temp_left] >= list[right_left] {
+        if right_left < end && tempList[temp_left] > list[right_left] {
+            // tempList[temp_left] >= list[right_left] 则算法不稳定
             list[true_left] = list[right_left]
             right_left += 1
         } else {
@@ -503,6 +498,33 @@ func maxArea(_ height: [Int]) -> Int {
     }
     
     return result
+}
+
+/// 两个有序数组
+func merge(_ A: inout [Int], _ m: Int, _ B: [Int], _ n: Int) {
+    let t = A[0..<m]
+    
+    var A_index = 0
+    var B_index = 0
+    var t_index = 0
+    
+    while t_index < m {
+        if B_index < n && t[t_index] > B[B_index] {
+            // 如果使用t[t_index] >= B[B_index]，则算法不稳定
+            A[A_index] = B[B_index]
+            B_index += 1
+        } else {
+            A[A_index] = t[t_index]
+            t_index += 1
+        }
+        A_index += 1
+    }
+    
+    while A_index < m + n && B_index < n {
+        A[A_index] = B[B_index]
+        A_index += 1
+        B_index += 1
+    }
 }
 
 // MARK: Data Structure - String
