@@ -15,13 +15,15 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let toSortList = [9,8,7,6,6,6,4,10,2,1]
-        var toQuickSort = toSortList
+        var toSortList = [9,8,7,6,6,6,4,10,2,1]
+        var canChangedSort = toSortList
         // sorted: [1,2,4,6,6,6,7,8,9,10]
         let bubble = bubbleSort(toSortList)
         let selection = selectionSort(toSortList)
         let insertion = insertionSort(toSortList)
-        quickSort(&toQuickSort, 0, toQuickSort.count-1)
+//        quickSort(&canChangedSort, 0, canChangedSort.count-1)
+        mergeSort(&canChangedSort)
+        
         
     }
 
@@ -122,6 +124,50 @@ private func binarySearch(_ list: [Int],_ target: Int) -> Int {
         }
     }
     return -1
+}
+
+/// 归并排序 (Merge Sort)
+/// 稳定性：稳定排序
+/// 思想：Divide Sort & Merge
+/// 时间复杂度：O(logn)
+private func mergeSort(_ list: inout [Int]) {
+    let begin: Int = 0;
+    let end: Int = list.count
+    divideMergeSort(&list, begin, end)
+}
+
+private func divideMergeSort(_ list: inout [Int], _ begin: Int, _ end: Int) {
+    if end - begin < 2 { return }
+    let mid: Int = (end + begin) >> 1
+    divideMergeSort(&list, begin, mid)
+    divideMergeSort(&list, mid, end)
+    merge(&list, begin, mid, end)
+}
+
+private func merge(_ list: inout [Int], _ begin: Int, _ mid: Int, _ end: Int) {
+    
+    var temp_left = 0
+    let temp_length = mid - begin
+    var right_left = mid
+    var true_left = begin
+    
+    // 将前半部分复制进行操作
+    var tempList: [Int] = []
+    for index in 0..<temp_length {
+        tempList.append(list[(begin + index)])
+    }
+    
+    while temp_left < temp_length {
+        // 因为左侧不可能越界，故以右侧为准，对原数组进行交换填充
+        if right_left < end && tempList[temp_left] >= list[right_left] {
+            list[true_left] = list[right_left]
+            right_left += 1
+        } else {
+            list[true_left] = tempList[temp_left]
+            temp_left += 1
+        }
+        true_left += 1
+    }
 }
 
 /// 快排 (Quick Sort)
