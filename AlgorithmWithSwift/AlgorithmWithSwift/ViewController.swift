@@ -123,7 +123,7 @@ private func binarySearch(_ list: [Int],_ target: Int) -> Int {
 /// 归并排序 (Merge Sort)
 /// 稳定性：稳定排序
 /// 思想：Divide Sort & Merge
-/// 时间复杂度：O(logn)
+/// 时间复杂度：O(nlogn)
 private func mergeSort(_ list: inout [Int]) {
     let begin: Int = 0;
     let end: Int = list.count
