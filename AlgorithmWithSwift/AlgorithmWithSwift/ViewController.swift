@@ -19,6 +19,9 @@ class ViewController: UIViewController {
         let B = [2,5,6]
         merge(&A, 3, B, 3)
         
+        var C = [9,2,3,8,10,4,5,2,11]
+        quickSort2(&C, 0, C.count)
+        
     }
 
 }
@@ -174,34 +177,85 @@ private func merge(_ list: inout [Int], _ begin: Int, _ mid: Int, _ end: Int) {
 private func quickSort(_ list: inout [Int], _ first: Int, _ last: Int) {
     guard last > first else { return }
     
-    /// conquer
-    let focus = list[first]
-    var _first = first
-    var _last = last
-    while _first != _last {
+    /// Conquer
+    /// pivot 确定轴点元素
+    let pivot = list[first]
+    var pre = first
+    var post = last
+    while pre != post {
         // 从后往前找小的
-        while list[_last] >= focus && _last > _first {
-            _last -= 1
+        while list[post] >= pivot && post > pre {
+            post -= 1
         }
         // 从前往后找大的
-        while list[_first] <= focus && _last > _first {
-            _first += 1
+        while list[pre] <= pivot && post > pre {
+            pre += 1
         }
-        // 双指针相遇时，进行交换
-        if _first < _last {
-            let temp = list[_first]
-            list[_first] = list[_last]
-            list[_last] = temp
+        // 将前半部分较大元素与后半部分较小元素进行交换
+        if pre < post {
+            let temp = list[pre]
+            list[pre] = list[post]
+            list[post] = temp
         }
     }
-    // 把目标值换到相遇的位置
-    list[first] = list[_first]
-    list[_first] = focus
+    
+    // 目前的pre = post，即为轴点位置
+    // 把目标值换到相遇的位置(交换元素)
+    list[first] = list[pre]
+    list[pre] = pivot
     
     /// Divide
     // 分离成两部分继续进行交换操作
-    quickSort(&list, first, _first - 1)
-    quickSort(&list, _last + 1, last)
+    quickSort(&list, first, pre - 1)
+    quickSort(&list, post + 1, last)
+}
+
+private func quickSort2(_ list: inout [Int], _ first: Int, _ last: Int) {
+    guard first < last - 1 else { return }
+    /// Conquer
+    // 确定轴点元素存放合适位置并返回该位置
+    let pivot_index = pivotIndex(&list, first, last)
+    /// Divide
+    // [first, pivot_index)
+    quickSort2(&list, first, pivot_index)
+    // [pivot_index+1, last)
+    quickSort2(&list, pivot_index + 1, last)
+}
+
+/// 轴点构造
+/// 返回轴点位置
+private func pivotIndex(_ list: inout [Int], _ begin: Int, _ end: Int) -> Int {
+    // 轴点元素
+    let pivot = list[begin]
+    var post = end - 1
+    var pre = begin
+    while pre < post {
+        while pre < post {
+            /// 保证分割均匀,尽量是每次sort的规模减半
+            /// 避免出现分割不均匀导致时间最坏时间复杂度O(n^2)
+            if list[post] > pivot {
+                post -= 1
+            } else {
+                list[pre] = list[post]
+                pre += 1
+                break
+            }
+        }
+        while pre < post {
+            if list[pre] < pivot {
+                pre += 1
+            } else {
+                list[post] = list[pre]
+                post -= 1
+                break
+            }
+        }
+    }
+    
+    /// 此时pre-post相等
+    /// 确定轴点元素位置并赋值
+    list[pre] = pivot
+    return pre
 }
 
 
