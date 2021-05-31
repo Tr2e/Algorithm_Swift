@@ -22,6 +22,9 @@ class ViewController: UIViewController {
         var C = [9,2,3,8,10,4,5,2,11]
         quickSort2(&C, 0, C.count)
         
+        var D = [9,2,3,8,10,4,5,2,11]
+        shellSort(&D)
+        
     }
 
 }
@@ -76,7 +79,7 @@ private func selectionSort(_ list: [Int]) -> [Int] {
 
 /// 插入排序
 /// 稳定：稳定排序
-/// 思想：保证数组前方始终有序，将较小的数据向前交换
+/// 思想：保证数组前方始终有序，将较小的数据`向前交换`
 /// 时间复杂度：与序列中的逆序对数量正相关
 /// 最好时间复杂度 O(n)
 /// 最坏时间复杂度 O(n^2)
@@ -258,6 +261,50 @@ private func pivotIndex(_ list: inout [Int], _ begin: Int, _ end: Int) -> Int {
     return pre
 }
 
+/// 希尔排序（Shell Sort）/ 递减增量排序（Diminishing Increment Sort）
+/// 确定步长序列（Step Sequence）
+/// 按照插入排序思想进行处理，综合性能优于插入排序
+/// 稳定：不稳定排序
+/// 时间复杂度：
+/// 最好时间复杂度 O(n)
+/// 最坏时间复杂度：O(n^2)
+private func shellSort(_ list: inout [Int]) {
+    let stepSequence = shellStepSequence(list.count)
+    for step in stepSequence {
+        shellInsertionSort(&list, step)
+    }
+}
+
+/// 插入排序希尔版
+private func shellInsertionSort(_ list: inout [Int], _ step: Int) {
+    // 步长序列的每一列进行排序
+    for column in 0..<step {
+        // 插入排序思想遍历数据
+        var begin = column + step
+        while begin < list.count {
+            let current = list[begin]
+            var cmpIndex = begin
+            // 注意使用current进行比较
+            while cmpIndex > column && current < list[cmpIndex - step] {
+                list[cmpIndex] = list[cmpIndex - step]
+                cmpIndex -= step
+            }
+            list[cmpIndex] = current
+            begin += step
+        }
+    }
+}
+
+/// 输入数据规模，确定希尔排序步长序列
+private func shellStepSequence(_ dataSize: Int) -> [Int] {
+    var size = dataSize >> 1
+    var result: [Int] = []
+    while size > 0 {
+        result.append(size)
+        size >>= 1
+    }
+    return result
+}
 
 
 // MARK: Data Structure - Array
