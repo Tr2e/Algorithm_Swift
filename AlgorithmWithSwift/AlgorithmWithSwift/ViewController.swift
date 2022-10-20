@@ -15,16 +15,9 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        var A = [1,2,3,0,0,0]
-        let B = [2,5,6]
-        merge(&A, 3, B, 3)
         
-        var C = [9,2,3,8,10,4,5,2,11]
-        quickSort2(&C, 0, C.count)
-        
-        var D = [9,2,3,8,10,4,5,2,11]
-        shellSort(&D)
-        
+        var nums = [0,1,2,2,3,0,4,2]
+        print(LeetCode.default.removeElement2(&nums, 2), nums)
     }
 
 }
@@ -305,6 +298,10 @@ private func shellStepSequence(_ dataSize: Int) -> [Int] {
     }
     return result
 }
+
+/// 计数排序（Counting Sort）
+/// 针对一定范围内的`整数`进行排序
+
 
 
 // MARK: Data Structure - Array
