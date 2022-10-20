@@ -69,17 +69,9 @@ class MinStack {
     }
 }
 
-// MARK: https://leetcode.cn/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/
-class SwordListNode {
-    var val: Int
-    var next: ListNode?
-    init(_ val: Int) {
-        self.val = val
-        self.next = nil
-    }
-}
 
 class Solution {
+// MARK: https://leetcode.cn/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/
     func reversePrint(_ head: ListNode?) -> [Int] {
         var stack = [Int]()
         var sentinal = ListNode()
@@ -89,6 +81,19 @@ class Solution {
             sentinal = node
         }
         return stack.reversed()
+    }
+    
+// MARK: https://leetcode.cn/problems/fan-zhuan-lian-biao-lcof/
+    func reverseList(_ head: ListNode?) -> ListNode? {
+        var newHead: ListNode? = nil
+        var current = head
+        while let node = current {
+            let temp = node.next
+            node.next = newHead
+            newHead = current
+            current = temp
+        }
+        return newHead
     }
 }
 
