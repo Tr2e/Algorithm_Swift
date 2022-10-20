@@ -1,5 +1,5 @@
 //
-//  SwoardOffer.swift
+//  SwordOffer.swift
 //  AlgorithmWithSwift
 //
 //  Created by Tree on 2022/10/20.
@@ -69,4 +69,26 @@ class MinStack {
     }
 }
 
+// MARK: https://leetcode.cn/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/
+class SwordListNode {
+    var val: Int
+    var next: ListNode?
+    init(_ val: Int) {
+        self.val = val
+        self.next = nil
+    }
+}
+
+class Solution {
+    func reversePrint(_ head: ListNode?) -> [Int] {
+        var stack = [Int]()
+        var sentinal = ListNode()
+        sentinal.next = head
+        while let node = sentinal.next {
+            stack.append(node.val)
+            sentinal = node
+        }
+        return stack.reversed()
+    }
+}
 
