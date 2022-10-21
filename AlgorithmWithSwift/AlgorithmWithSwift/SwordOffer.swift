@@ -71,17 +71,20 @@ class MinStack {
 
 
 class Solution {
-// MARK: https://leetcode.cn/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/
+    
+    static let `default` = Solution()
+    
+    // MARK: https://leetcode.cn/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/
     func reversePrint(_ head: ListNode?) -> [Int] {
-// 第一反应就是哨兵节点，遍历节点存入数组，缺点是调用了系统Api，跟用栈其实很类似
-//        var stack = [Int]()
-//        var sentinal = ListNode()
-//        sentinal.next = head
-//        while let node = sentinal.next {
-//            stack.append(node.val)
-//            sentinal = node
-//        }
-//        return stack.reversed()
+        // 第一反应就是哨兵节点，遍历节点存入数组，缺点是调用了系统Api，跟用栈其实很类似
+        //        var stack = [Int]()
+        //        var sentinal = ListNode()
+        //        sentinal.next = head
+        //        while let node = sentinal.next {
+        //            stack.append(node.val)
+        //            sentinal = node
+        //        }
+        //        return stack.reversed()
         
         // 递归存储逆序节点
         var stack = [Int]()
@@ -94,7 +97,7 @@ class Solution {
         return stack
     }
     
-// MARK: https://leetcode.cn/problems/fan-zhuan-lian-biao-lcof/
+    // MARK: https://leetcode.cn/problems/fan-zhuan-lian-biao-lcof/
     func reverseList(_ head: ListNode?) -> ListNode? {
         var newHead: ListNode? = nil
         var current = head
@@ -105,6 +108,42 @@ class Solution {
             current = temp
         }
         return newHead
+    }
+    
+    // MARK: https://leetcode.cn/problems/fu-za-lian-biao-de-fu-zhi-lcof/description/
+    func copyRandomList(_ head: ListNode?) -> ListNode? {
+        guard let ahead = head else {
+            return head
+        }
+        
+        var map = [ListNode: ListNode]()
+        var current: ListNode? = ahead
+        
+        // 处理映射: 先遍历创建所有节点，并存储映射关系
+        while let node = current {
+            current = ListNode(node.val)
+            map[node] = current
+            current = node.next
+        }
+        
+        // 处理next, random: 重新遍历，以旧链表节点为key将新的节点从map中取出
+        current = ahead
+        while let node = current, let target = map[node] {
+            if let oldNext = node.next {
+                target.next = map[oldNext]
+            } else {
+                target.next = nil
+            }
+            
+            if let oldRandom = node.random {
+                target.random = map[oldRandom]
+            } else {
+                target.random = nil
+            }
+            current = node.next
+        }
+        
+        return map[ahead]
     }
 }
 
