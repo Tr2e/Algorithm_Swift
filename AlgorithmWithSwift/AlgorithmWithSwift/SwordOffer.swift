@@ -73,14 +73,25 @@ class MinStack {
 class Solution {
 // MARK: https://leetcode.cn/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/
     func reversePrint(_ head: ListNode?) -> [Int] {
+// 第一反应就是哨兵节点，遍历节点存入数组，缺点是调用了系统Api，跟用栈其实很类似
+//        var stack = [Int]()
+//        var sentinal = ListNode()
+//        sentinal.next = head
+//        while let node = sentinal.next {
+//            stack.append(node.val)
+//            sentinal = node
+//        }
+//        return stack.reversed()
+        
+        // 递归存储逆序节点
         var stack = [Int]()
-        var sentinal = ListNode()
-        sentinal.next = head
-        while let node = sentinal.next {
+        func recursiveStoreNode(_ head: ListNode?) {
+            guard let node = head else { return }
+            recursiveStoreNode(head?.next)
             stack.append(node.val)
-            sentinal = node
         }
-        return stack.reversed()
+        recursiveStoreNode(head)
+        return stack
     }
     
 // MARK: https://leetcode.cn/problems/fan-zhuan-lian-biao-lcof/
