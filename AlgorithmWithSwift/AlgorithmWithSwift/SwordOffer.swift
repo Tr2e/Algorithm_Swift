@@ -145,5 +145,33 @@ class Solution {
         
         return map[ahead]
     }
+    
+    // https://leetcode.cn/problems/ti-huan-kong-ge-lcof/
+    func replaceSpace(_ s: String) -> String {
+        var result = ""
+        for char in s {
+            if char == " " {
+                result.append("%20")
+            } else {
+                result.append(char)
+            }
+        }
+        return result
+    }
+    
+    // https://leetcode.cn/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/
+    func reverseLeftWords(_ s: String, _ n: Int) -> String {
+        guard n < s.count else { return s }
+        var left = ""
+        var right = ""
+        for (index, char) in s.enumerated() {
+            if index < n {
+                right.append(char)
+            } else {
+                left.append(char)
+            }
+        }
+        return left + right
+    }
 }
 

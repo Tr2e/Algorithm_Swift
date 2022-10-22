@@ -1363,6 +1363,15 @@ func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
 //    }
 //}
 
+// 两两交换链表中的节点
+func swapPairs(_ head: ListNode?) -> ListNode? {
+    guard let first = head, let second = first.next else { return head }
+    let temp = second.next
+    first.next = swapPairs(temp)
+    second.next = first
+    return second
+}
+
 extension ListNode: Hashable, Equatable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(val)
