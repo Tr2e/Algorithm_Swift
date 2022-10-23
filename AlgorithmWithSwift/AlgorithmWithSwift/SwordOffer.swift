@@ -173,5 +173,35 @@ class Solution {
         }
         return left + right
     }
+    
+    // https://leetcode.cn/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/
+    func findRepeatNumber(_ nums: [Int]) -> Int {
+        var map = [Int: Int]()
+        for item in nums {
+            if let _ = map[item] {
+                return item
+            } else {
+                map[item] = 1
+            }
+        }
+        return nums.first ?? Int.min
+    }
+    
+    func findRepeatNumberSpaceBetter(_ nums: [Int]) -> Int {
+        var index = 0
+        var target = nums
+        while index < target.count {
+            if target[index] == index {
+                index += 1
+                continue
+            } else if target[target[index]] == target[index] {
+                return target[index]
+            }
+            let temp = target[target[index]]
+            target[target[index]] = target[index]
+            target[index] = temp
+        }
+        return Int.min
+    }
 }
 
