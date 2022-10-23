@@ -203,5 +203,46 @@ class Solution {
         }
         return Int.min
     }
+    
+    // https://leetcode.cn/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/
+    func search(_ nums: [Int], _ target: Int) -> Int {
+        var begin = 0
+        var end = nums.count - 1
+        var index = 0
+        var count = 0
+        
+        // 二分查找
+        while begin <= end {
+            let mid: Int = (begin + end) >> 1
+            if  nums[mid] > target {
+                end = mid - 1
+            } else if nums[mid] < target {
+                begin = mid + 1
+            } else {
+                index = mid
+                break
+            }
+        }
+        
+        // 中心扩散 -> left
+        var left = index
+        while left >= 0, left < nums.count, nums[left] == target {
+            count += 1
+            left -= 1
+        }
+        
+        // 中心扩散 -> right
+        var right = index + 1
+        while right < nums.count, nums[right] == target {
+            count += 1
+            right += 1
+        }
+        
+        return count
+    }
+    
+    func missingNumber(_ nums: [Int]) -> Int {
+
+    }
 }
 

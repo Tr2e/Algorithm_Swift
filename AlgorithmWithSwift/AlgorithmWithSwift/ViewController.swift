@@ -16,8 +16,8 @@ class ViewController: UIViewController {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        var nums = [0,1,2,2,3,0,4,2]
-        print(LeetCode.default.removeElement2(&nums, 2), nums)
+        let nums = [0,1,2,3,4,4,4]
+        print(Solution.default.search(nums, 4))
     }
 
 }
@@ -105,13 +105,13 @@ private func insertionSort(_ list: [Int]) -> [Int] {
 private func binarySearch(_ list: [Int],_ target: Int) -> Int {
     guard list.count > 0 else { return -1 }
     var begin = 0
-    var end = list.count
-    while begin < end {
+    var end = list.count - 1
+    while begin <= end {
         let middle: Int = (begin + end) >> 1
         if list[middle] > target {
-            end = middle
+            end = middle - 1
         } else if list[middle] < target {
-            begin = middle
+            begin = middle + 1
         } else {
             return middle
         }
