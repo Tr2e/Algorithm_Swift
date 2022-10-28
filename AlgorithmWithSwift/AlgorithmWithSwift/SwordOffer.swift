@@ -256,7 +256,7 @@ class Solution {
 //                right = mid - 1
 //            }
 //        }
-//        return left // 返回缺失的索引
+//        return left // 缺失的数字等于 “右子数组的首位元素” 对应的索引
 //    }
     
     func missingNumber(_ nums: [Int]) -> Int {
@@ -266,6 +266,40 @@ class Solution {
             missingIndex -= nums[index - 1]
         }
         return missingIndex
+    }
+    
+    // https://leetcode.cn/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof/
+//    func findNumberIn2DArray(_ matrix: [[Int]], _ target: Int) -> Bool {
+//        for subArray in matrix {
+//            var left = 0, right = subArray.count - 1
+//            while left <= right {
+//                let rowMid = (left + right) >> 1
+//                let mid = subArray[rowMid]
+//                if mid == target {
+//                    return true
+//                } else if mid > target {
+//                    right = rowMid - 1
+//                } else {
+//                    left = rowMid + 1
+//                }
+//            }
+//        }
+//        return false
+//    }
+    
+    func findNumberIn2DArray(_ matrix: [[Int]], _ target: Int) -> Bool {
+        var row = matrix.count - 1, column = 0
+        while row >= 0, column < (matrix.first?.count ?? 0) {
+            let flag = matrix[row][column]
+            if flag == target {
+                return true
+            } else if flag > target {
+                row -= 1
+            } else {
+                column += 1
+            }
+        }
+        return false
     }
 }
 
