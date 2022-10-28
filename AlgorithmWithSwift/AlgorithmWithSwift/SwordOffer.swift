@@ -301,5 +301,30 @@ class Solution {
         }
         return false
     }
+    
+    // https://leetcode.cn/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/
+    func minArray(_ numbers: [Int]) -> Int {
+        var left = 0, right = numbers.count - 1
+        while left < right, numbers[left] >= numbers[right] {
+            left += 1
+        }
+        return numbers[left]
+    }
+    
+    func minArray(numbers: [Int]) -> Int {
+        var left = 0, right = numbers.count - 1
+        while left < right {
+            let mid = (left + right) >> 1
+            let midNum = numbers[mid]
+            if midNum > numbers[right] {
+                left = mid + 1
+            } else if midNum < numbers[right] {
+                right = mid
+            } else {
+                right -= 1
+            }
+        }
+        return numbers[left]
+    }
 }
 

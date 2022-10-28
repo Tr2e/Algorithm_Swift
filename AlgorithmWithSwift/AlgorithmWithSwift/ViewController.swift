@@ -16,8 +16,8 @@ class ViewController: UIViewController {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        let nums = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]]
-        print(Solution.default.findNumberIn2DArray(nums, 5))
+        let nums = [1,3,3]
+        print(Solution.default.minArray(numbers: nums))
     }
 
 }
