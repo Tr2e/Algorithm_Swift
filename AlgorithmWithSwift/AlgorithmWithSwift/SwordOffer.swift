@@ -241,8 +241,31 @@ class Solution {
         return count
     }
     
+    // https://leetcode.cn/problems/que-shi-de-shu-zi-lcof/
+    // 解题关键点在于理解[0, n-1]n个数字都在n-1范围内
+    // 正确的数字应该是跟索引一一对应
+    // 错误的数字是唯一一个不对的，说明每个数字间隔1
+//    func missingNumber(_ nums: [Int]) -> Int {
+//        var left = 0
+//        var right = nums.count - 1
+//        while left <= right {
+//            let mid = (left + right) >> 1
+//            if nums[mid] == mid {
+//                left = mid + 1
+//            } else {
+//                right = mid - 1
+//            }
+//        }
+//        return left // 返回缺失的索引
+//    }
+    
     func missingNumber(_ nums: [Int]) -> Int {
-
+        var missingIndex = 0
+        for index in 1...nums.count {
+            missingIndex += index
+            missingIndex -= nums[index - 1]
+        }
+        return missingIndex
     }
 }
 
