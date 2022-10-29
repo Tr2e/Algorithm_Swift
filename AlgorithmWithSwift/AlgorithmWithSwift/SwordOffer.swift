@@ -326,5 +326,38 @@ class Solution {
         }
         return numbers[left]
     }
+    
+    // https://leetcode.cn/problems/di-yi-ge-zhi-chu-xian-yi-ci-de-zi-fu-lcof/
+//    func firstUniqChar(_ s: String) -> Character {
+//        var charsMap: [Character: Bool] = [:]
+//        var uniqChars: [Character] = []
+//        for char in s {
+//            if charsMap[char] != nil {
+//                uniqChars.removeAll { $0 == char }
+//            } else {
+//                charsMap[char] = true
+//                uniqChars.append(char)
+//            }
+//        }
+//        return uniqChars.first ?? " "
+//    }
+    
+    func firstUniqChar(_ s: String) -> Character {
+        var charsMap: [Character: Int] = [:]
+        for char in s {
+            if let count = charsMap[char] {
+                charsMap[char] = count + 1
+            } else {
+                charsMap[char] = 1
+            }
+        }
+        
+        for char in s {
+            if let count = charsMap[char], count == 1 {
+                return char
+            }
+        }
+        return " "
+    }
 }
 

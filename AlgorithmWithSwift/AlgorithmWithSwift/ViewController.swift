@@ -15,9 +15,7 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        let nums = [1,3,3]
-        print(Solution.default.minArray(numbers: nums))
+        print(Solution.default.firstUniqChar("abcaabbdcc"))
     }
 
 }
