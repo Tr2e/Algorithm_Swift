@@ -359,5 +359,88 @@ class Solution {
         }
         return " "
     }
+    
+    // https://leetcode.cn/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/
+    func levelOrder(_ root: TreeNode?) -> [Int] {
+        guard let root = root else { return [] }
+        var stack: [TreeNode] = [root]
+        var result: [Int] = []
+        
+        while let node = stack.first {
+            result.append(node.val)
+            stack.removeFirst()
+            if let left = node.left {
+                stack.append(left)
+            }
+            if let right = node.right {
+                stack.append(right)
+            }
+        }
+        return result
+    }
+    
+    // https://leetcode.cn/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/
+    func levelOrder2D(_ root: TreeNode?) -> [[Int]] {
+        guard let root = root else { return [] }
+        var result: [[Int]] = []
+        var stack: [TreeNode] = [root]
+        var level: Int = 0
+        var levelCount: Int = stack.count
+        
+        while let node = stack.first {
+            if result.count < level + 1 {
+                result.append([])
+            }
+            result[level].append(node.val)
+            stack.removeFirst()
+            levelCount -= 1
+            if let left = node.left {
+                stack.append(left)
+            }
+            if let right = node.right {
+                stack.append(right)
+            }
+            if levelCount == 0 {
+                levelCount = stack.count
+                level += 1
+            }
+        }
+        
+        return result
+    }
+    
+    // https://leetcode.cn/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/
+    func levelOrder2Dcycle(_ root: TreeNode?) -> [[Int]] {
+        guard let root = root else { return [] }
+        var result: [[Int]] = []
+        var level: Int = 0
+        var levelStack: [TreeNode] = [root]
+        var levelCount: Int = levelStack.count
+        
+        var temp: [Int] = []
+        while let node = levelStack.first {
+            if level % 2 == 0 {
+                temp.append(node.val)
+            } else {
+                temp.insert(node.val, at: 0)
+            }
+            levelStack.removeFirst()
+            levelCount -= 1
+            if let left = node.left {
+                levelStack.append(left)
+            }
+            if let right = node.right {
+                levelStack.append(right)
+            }
+            if levelCount == 0 {
+                levelCount = levelStack.count
+                level += 1
+                result.append(temp)
+                temp.removeAll()
+            }
+        }
+        
+        return result
+    }
 }
 
