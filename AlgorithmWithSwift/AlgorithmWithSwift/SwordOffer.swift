@@ -442,5 +442,20 @@ class Solution {
         
         return result
     }
+    
+    // https://leetcode.cn/problems/shu-de-zi-jie-gou-lcof/description/
+    func isSubStructure(_ A: TreeNode?, _ B: TreeNode?) -> Bool {
+        guard let A = A else { return false }
+        guard let B = B else { return false }
+        
+        func isRecur(_ A: TreeNode?, _ B: TreeNode?) -> Bool {
+            guard let B = B else { return true }
+            guard let A = A else { return false }
+            if A.val != B.val { return false }
+            return isRecur(A.left, B.left) && isRecur(A.right, B.right)
+        }
+        
+        return isRecur(A, B) || isSubStructure(A.left, B) || isSubStructure(A.right, B)
+    }
 }
 
