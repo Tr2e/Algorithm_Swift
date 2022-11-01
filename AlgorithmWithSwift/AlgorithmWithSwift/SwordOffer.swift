@@ -491,5 +491,30 @@ class Solution {
         }
         return mirror(root.left, root.right)
     }
+    
+    // https://leetcode.cn/problems/fei-bo-na-qi-shu-lie-lcof/
+//    var map: [Int: Int] = [:]
+//    func fib(_ n: Int) -> Int {
+//        if let cache = map[n] {
+//            return cache
+//        }
+//        if n == 0 || n == 1 {
+//            map[n] = n
+//            return n
+//        }
+//        let result = (fib(n - 1) + fib(n - 2)) % 1000000007
+//        map[n] = result
+//        return result
+//    }
+    
+    func fib(_ n: Int) -> Int {
+        var a = 0, b = 1, sum = 0
+        for _ in 0 ..< n {
+            sum = (a + b) % 1000000007
+            a = b
+            b = sum
+        }
+        return a
+    }
 }
 
