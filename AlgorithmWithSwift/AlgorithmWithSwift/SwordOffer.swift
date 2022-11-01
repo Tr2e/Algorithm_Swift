@@ -457,5 +457,39 @@ class Solution {
         
         return isRecur(A, B) || isSubStructure(A.left, B) || isSubStructure(A.right, B)
     }
+    
+    // https://leetcode.cn/problems/er-cha-shu-de-jing-xiang-lcof/
+    func mirrorTree(_ root: TreeNode?) -> TreeNode? {
+        guard let root = root else { return nil }
+        
+        let left = root.left
+        let right = root.right
+        let temp = left
+        
+        root.left = right
+        root.right = temp
+        
+        _ = mirrorTree(root.left)
+        _ = mirrorTree(root.right)
+        
+        return root
+    }
+    
+    // https://leetcode.cn/problems/dui-cheng-de-er-cha-shu-lcof/
+    func isSymmetric(_ root: TreeNode?) -> Bool {
+        guard let root = root else { return true }
+        func mirror(_ left: TreeNode?, _ right: TreeNode?) -> Bool {
+            if left == nil, right == nil {
+                return true
+            }
+            if left == nil || right == nil {
+                return false
+            }
+            return left?.val == right?.val
+                && mirror(left?.left, right?.right)
+                && mirror(left?.right, right?.left)
+        }
+        return mirror(root.left, root.right)
+    }
 }
 
