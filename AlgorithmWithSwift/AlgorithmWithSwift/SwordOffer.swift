@@ -508,7 +508,18 @@ class Solution {
 //    }
     
     func fib(_ n: Int) -> Int {
-        var a = 0, b = 1, sum = 0
+        var sum = 0, a = 0, b = 1
+        for _ in 0 ..< n {
+            sum = (a + b) % 1000000007
+            a = b
+            b = sum
+        }
+        return a
+    }
+    
+    // https://leetcode.cn/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/
+    func numWays(_ n: Int) -> Int {
+        var sum = 0, a = 1, b = 1
         for _ in 0 ..< n {
             sum = (a + b) % 1000000007
             a = b
