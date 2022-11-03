@@ -553,21 +553,34 @@ class Solution {
     }
     
     // https://leetcode.cn/problems/gu-piao-de-zui-da-li-run-lcof/
+//    func maxProfit(_ prices: [Int]) -> Int {
+//        guard prices.count > 0 else { return 0 }
+//        var profit = 0
+//        let count = prices.count
+//        for row in 0 ..< count - 1 {
+//            let rowNum = prices[row]
+//            for column in row + 1 ..< count {
+//                let columnNum = prices[column]
+//                let num = columnNum - rowNum
+//                if num > profit {
+//                    profit = num
+//                }
+//            }
+//        }
+//        return profit
+//    }
+    
     func maxProfit(_ prices: [Int]) -> Int {
-        guard prices.count > 0 else { return 0 }
-        var profit = 0
-        let count = prices.count
-        for row in 0 ..< count - 1 {
-            let rowNum = prices[row]
-            for column in row + 1 ..< count {
-                let columnNum = prices[column]
-                let num = columnNum - rowNum
-                if num > profit {
-                    profit = num
-                }
+        var minPrice = Int.max
+        var maxProfit = 0
+        for day in 0 ..< prices.count {
+            if prices[day] < minPrice {
+                minPrice = prices[day]
+            } else if prices[day] - minPrice > maxProfit {
+                maxProfit = prices[day] - minPrice
             }
         }
-        return profit
+        return maxProfit
     }
 }
 
