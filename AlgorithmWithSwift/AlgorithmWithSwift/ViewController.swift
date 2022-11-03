@@ -15,10 +15,8 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let right = TreeNode(20, TreeNode(15), TreeNode(7))
-        let left = TreeNode(9)
-        let root = TreeNode(3, left, right)
-        print(Solution.default.levelOrder2Dcycle(root))
+        let prices: [Int] = []
+        print(Solution.default.maxProfit(prices))
     }
 
 }

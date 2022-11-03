@@ -495,7 +495,7 @@ class Solution {
     // https://leetcode.cn/problems/fei-bo-na-qi-shu-lie-lcof/
 //    var map: [Int: Int] = [:]
 //    func fib(_ n: Int) -> Int {
-//        if let cache = map[n] {
+//        if let cache = map[n] {// 记忆化搜索 空间换时间
 //            return cache
 //        }
 //        if n == 0 || n == 1 {
@@ -507,25 +507,67 @@ class Solution {
 //        return result
 //    }
     
+//    func fib(_ n: Int) -> Int {
+//        var sum = 0, a = 0, b = 1
+//        for _ in 0 ..< n {
+//            sum = (a + b) % 1000000007
+//            a = b
+//            b = sum
+//        }
+//        return a
+//    }
+    
     func fib(_ n: Int) -> Int {
-        var sum = 0, a = 0, b = 1
-        for _ in 0 ..< n {
-            sum = (a + b) % 1000000007
+        var a = 0, b = 1
+        if n < 2 { return n }
+        var sum = 0
+        for _ in 0...(n-2) {
+            sum = a + b
             a = b
             b = sum
         }
-        return a
+        return sum
     }
     
+    
     // https://leetcode.cn/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/
+//    func numWays(_ n: Int) -> Int {
+//        var sum = 0, a = 1, b = 1
+//        for _ in 0 ..< n {
+//            sum = (a + b) % 1000000007
+//            a = b
+//            b = sum
+//        }
+//        return a
+//    }
     func numWays(_ n: Int) -> Int {
-        var sum = 0, a = 1, b = 1
-        for _ in 0 ..< n {
-            sum = (a + b) % 1000000007
+        var a = 1, b = 1
+        if n < 2 { return max(n, 1) }
+        var sum = 0
+        for _ in 0...(n-2) {
+            sum = a + b
             a = b
             b = sum
         }
-        return a
+        return sum
+    }
+    
+    // https://leetcode.cn/problems/gu-piao-de-zui-da-li-run-lcof/
+    func maxProfit(_ prices: [Int]) -> Int {
+        guard prices.count > 0 else { return 0 }
+        var profit = 0
+        let count = prices.count
+        for row in 0 ..< count - 1 {
+            let rowNum = prices[row]
+            for column in row + 1 ..< count {
+                let columnNum = prices[column]
+                let num = columnNum - rowNum
+                if num > profit {
+                    profit = num
+                }
+            }
+        }
+        return profit
     }
 }
 
