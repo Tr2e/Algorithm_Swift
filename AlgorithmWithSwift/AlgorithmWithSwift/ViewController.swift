@@ -15,8 +15,8 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let list = [[1,3,1],[1,5,1],[4,2,1]]
-        print(Solution.default.maxValue(list))
+        let num = 122581
+        print(Solution.default.translateNum(num))
     }
 
 }

@@ -627,5 +627,27 @@ class Solution {
         }
         return dp[rowCt - 1][colCt - 1]
     }
+    
+    // https://leetcode.cn/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/
+    func translateNum(_ num: Int) -> Int {
+        var dp: [Int] = [1]
+        let numString = String(num)
+        let numList = numString.map { String($0) }
+        
+        let count = numList.count
+        for i in 1 ..< count {
+            let a: Int = Int(String(numList[i - 1]))! * 10 + Int(String(numList[i]))!
+            if a > 25 || a == Int(String(numList[i]))! {
+                dp.append(dp[i - 1])
+            } else {
+                if i == 1 {
+                    dp.append(2)
+                } else {
+                    dp.append(dp[i - 1] + dp[i - 2])
+                }
+            }
+        }
+        return dp[count - 1]
+    }
 }
 
