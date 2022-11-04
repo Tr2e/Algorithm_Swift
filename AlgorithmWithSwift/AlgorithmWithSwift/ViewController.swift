@@ -15,7 +15,8 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print(Solution.default.maxSubArray([-2,1,-3,4,-1,2,1,-5]))
+        let list = [[1,3,1],[1,5,1],[4,2,1]]
+        print(Solution.default.maxValue(list))
     }
 
 }

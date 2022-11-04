@@ -603,5 +603,29 @@ class Solution {
         }
         return num
     }
+    
+    // https://leetcode.cn/problems/li-wu-de-zui-da-jie-zhi-lcof/
+    func maxValue(_ grid: [[Int]]) -> Int {
+        let rowCt = grid.count
+        let colCt = grid.first!.count
+        var dp: [[Int]] = []
+        for rowTag in 0 ..< rowCt {
+            var rowList: [Int] = []
+            for colTag in 0 ..< colCt {
+                let current = grid[rowTag][colTag]
+                if rowTag == 0, colTag == 0 {
+                    rowList.append(current)
+                } else if rowTag == 0 {
+                    rowList.append(rowList[colTag - 1] + current)
+                } else if colTag == 0 {
+                    rowList.append(dp[rowTag - 1][colTag] + current)
+                } else {
+                    rowList.append(max(dp[rowTag - 1][colTag] + current, rowList[colTag - 1] + current))
+                }
+            }
+            dp.append(rowList)
+        }
+        return dp[rowCt - 1][colCt - 1]
+    }
 }
 
