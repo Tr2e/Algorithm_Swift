@@ -582,5 +582,26 @@ class Solution {
         }
         return maxProfit
     }
+    
+    // https://leetcode.cn/problems/lian-xu-zi-shu-zu-de-zui-da-he-lcof/
+    func maxSubArray(_ nums: [Int]) -> Int {
+//        var dp: [Int] = []
+//        for i in 0 ..< nums.count {
+//            if i == 0 {
+//                dp.append(nums[i])
+//            } else {
+//                let bigger = max(dp[i - 1] + nums[i], nums[i])
+//                dp.append(bigger)
+//            }
+//        }
+//        return dp.max() ?? Int.min
+        guard nums.count > 0, var num = nums.first else { return Int.min }
+        var pre = num
+        for i in 1 ..< nums.count {
+            pre = max(pre + nums[i], nums[i])
+            num = max(pre, num)
+        }
+        return num
+    }
 }
 

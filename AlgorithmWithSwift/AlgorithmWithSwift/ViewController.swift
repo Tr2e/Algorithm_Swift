@@ -15,8 +15,7 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let prices: [Int] = []
-        print(Solution.default.maxProfit(prices))
+        print(Solution.default.maxSubArray([-2,1,-3,4,-1,2,1,-5]))
     }
 
 }
