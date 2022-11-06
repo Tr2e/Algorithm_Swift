@@ -680,5 +680,36 @@ class Solution {
         }
         return longestSubstring.count
     }
+    
+    // https://leetcode.cn/problems/shan-chu-lian-biao-de-jie-dian-lcof/
+    func deleteNode(_ head: ListNode?, _ val: Int) -> ListNode? {
+        var target = head
+        if target?.val == val {
+            return target?.next
+        }
+        while let node = target?.next, node.val != val {
+            target = node
+        }
+        if let node = target?.next, node.val == val {
+            let temp = node.next
+            target?.next = temp
+        }
+        return head
+    }
+    
+    // https://leetcode.cn/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/
+    func getKthFromEnd(_ head: ListNode?, _ k: Int) -> ListNode? {
+        var tag = 0
+        var fastNode: ListNode? = head
+        var slowNode: ListNode? = head
+        while fastNode != nil {
+            fastNode = fastNode?.next
+            if tag >= k {
+                slowNode = slowNode?.next
+            }
+            tag += 1
+        }
+        return k > tag || k < 0 ? nil : slowNode
+    }
 }
 
