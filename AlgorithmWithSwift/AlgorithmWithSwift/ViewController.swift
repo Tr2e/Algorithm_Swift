@@ -15,8 +15,7 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let num = 122581
-        print(Solution.default.translateNum(num))
+        print(Solution.default.translateNum(1))
     }
 
 }
