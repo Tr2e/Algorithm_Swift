@@ -703,13 +703,53 @@ class Solution {
         var fastNode: ListNode? = head
         var slowNode: ListNode? = head
         while fastNode != nil {
+            tag += 1
             fastNode = fastNode?.next
-            if tag >= k {
+            if tag > k {
                 slowNode = slowNode?.next
             }
-            tag += 1
         }
         return k > tag || k < 0 ? nil : slowNode
+    }
+    
+    // https://leetcode.cn/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/
+    func mergeTwoLists(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+        guard let l1 = l1 else {
+            return l2
+        }
+        guard let l2 = l2 else {
+            return l1
+        }
+        if l1.val > l2.val {
+            l2.next = mergeTwoLists(l2.next, l1)
+        } else {
+            l1.next = mergeTwoLists(l1.next, l2)
+        }
+        return l1.val > l2.val ? l2 : l1
+    }
+    
+    func mergeTwoListsIteration(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+        guard let l1 = l1 else {
+            return l2
+        }
+        guard let l2 = l2 else {
+            return l1
+        }
+        let sentinal = ListNode(-1)
+        var pre: ListNode? = sentinal
+        var node1: ListNode? = l1, node2: ListNode? = l2
+        while let temp1 = node1, let temp2 = node2, let tempPre = pre {
+            if temp1.val > temp2.val {
+                tempPre.next = temp2
+                node2 = temp2.next
+            } else {
+                tempPre.next = node1
+                node1 = temp1.next
+            }
+            pre = tempPre.next
+        }
+        pre?.next = node1 == nil ? node2 : node1
+        return sentinal.next
     }
 }
 
