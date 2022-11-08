@@ -761,5 +761,26 @@ class Solution {
         }
         return a
     }
+    
+    // https://leetcode.cn/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/
+    func exchange(_ nums: [Int]) -> [Int] {
+        var result = nums
+        var first = 0, last = nums.count - 1
+        while first <= last {
+            if nums[last] % 2 != 0 {
+                if nums[first] % 2 != 0 {
+                    first += 1
+                } else {
+                    result[first] = nums[last]
+                    result[last] = nums[first]
+                    first += 1
+                    last -= 1
+                }
+            } else {
+                last -= 1
+            }
+        }
+        return result
+    }
 }
 

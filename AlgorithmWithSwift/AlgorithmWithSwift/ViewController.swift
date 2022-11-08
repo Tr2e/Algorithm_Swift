@@ -15,8 +15,7 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let head = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
-        _ = Solution.default.getKthFromEnd(head, 6)
+        print(Solution.default.exchange([1, 2, 3, 4]))
     }
 
 }
