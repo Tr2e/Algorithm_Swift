@@ -751,5 +751,15 @@ class Solution {
         pre?.next = node1 == nil ? node2 : node1
         return sentinal.next
     }
+    
+    // 
+    func getIntersectionNode(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+        var a = l1, b = l2
+        while a != b {
+            a = a == nil ? l2 : a?.next
+            b = b == nil ? l1 : b?.next
+        }
+        return a
+    }
 }
 
