@@ -801,15 +801,31 @@ class Solution {
     
     // https://leetcode.cn/problems/fan-zhuan-dan-ci-shun-xu-lcof/
     func reverseWords(_ s: String) -> String {
-        var result = ""
-        let list = s.split(separator: " ")
-        for (index, word) in list.reversed().enumerated() {
-            result.append(contentsOf: word)
-            if index < list.count - 1 {
-                result.append(" ")
+        var result: [String] = []
+        let count = s.count
+        var pre = count - 1, post = count - 1
+        while pre >= 0 {
+            let char = s[s.index(s.startIndex, offsetBy: pre)]
+            if char == " " {
+                pre -= 1
+                post -= 1
+                continue
             }
+
+            var tag: Character?
+            while pre >= 0, tag != " " {
+                tag = s[s.index(s.startIndex, offsetBy: pre)]
+                if tag != " " {
+                    pre -= 1
+                }
+            }
+            // 字符串截取非常耗性能，如果用下面这种方式取，超长case超时
+            let word = s[s.index(s.startIndex, offsetBy: pre + 1)...s.index(s.startIndex, offsetBy: post)]
+            result.append(String(word))
+            post = pre
         }
-        return result
+        return result.joined(separator: " ")
+//        s.split(separator: " ").map{ $0 }.reversed().joined(separator: " ")
     }
 }
 

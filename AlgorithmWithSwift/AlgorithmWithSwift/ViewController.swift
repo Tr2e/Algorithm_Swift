@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print(Solution.default.reverseWords("the sky is blue"))
+        print(Solution.default.reverseWords("a good   example"))
     }
 
 }
