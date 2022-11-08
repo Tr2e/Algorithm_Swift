@@ -752,7 +752,7 @@ class Solution {
         return sentinal.next
     }
     
-    // 
+    // https://leetcode.cn/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-dian-lcof/
     func getIntersectionNode(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
         var a = l1, b = l2
         while a != b {
