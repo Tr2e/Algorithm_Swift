@@ -782,5 +782,34 @@ class Solution {
         }
         return result
     }
+    
+    // https://leetcode.cn/problems/he-wei-sde-liang-ge-shu-zi-lcof/
+    func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+        var begin = 0, end = nums.count - 1
+        while begin < end {
+            let sum = nums[begin] + nums[end]
+            if sum == target {
+                return [nums[begin], nums[end]]
+            } else if sum > target {
+                end -= 1
+            } else {
+                begin += 1
+            }
+        }
+        return []
+    }
+    
+    // https://leetcode.cn/problems/fan-zhuan-dan-ci-shun-xu-lcof/
+    func reverseWords(_ s: String) -> String {
+        var result = ""
+        let list = s.split(separator: " ")
+        for (index, word) in list.reversed().enumerated() {
+            result.append(contentsOf: word)
+            if index < list.count - 1 {
+                result.append(" ")
+            }
+        }
+        return result
+    }
 }
 
