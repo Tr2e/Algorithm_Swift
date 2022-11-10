@@ -827,5 +827,46 @@ class Solution {
         return result.joined(separator: " ")
 //        s.split(separator: " ").map{ $0 }.reversed().joined(separator: " ")
     }
+    
+    // https://leetcode.cn/problems/ju-zhen-zhong-de-lu-jing-lcof/
+    func exist(_ board: [[Character]], _ word: String) -> Bool {
+        var visited: [[Bool]] = [[Bool]].init(
+            repeating: [Bool].init(
+                repeating: false,
+                count: board.first!.count),
+            count: board.count
+        )
+        var answer: [Character] = word.map { $0 }
+        let chars = word.map{ $0 }
+        
+        func dfs(_ depth: Int, row: Int, col: Int) -> Bool {
+            
+            
+            if depth == word.count { return true }
+            if row < 0 || row > board.count - 1 { return false }
+            if col < 0 || col > board.first!.count - 1 { return false }
+            if board[row][col] != chars[depth] { return false }
+            
+            if visited[row][col] == false {
+                answer[depth] = board[row][col]
+                visited[row][col] = true
+                let searched =
+                dfs(depth + 1, row: row - 1, col: col) ||
+                dfs(depth + 1, row: row + 1, col: col) ||
+                dfs(depth + 1, row: row, col: col - 1) ||
+                dfs(depth + 1, row: row, col: col + 1)
+                visited[row][col] = false
+                if searched { return true }
+            }
+            return false
+        }
+        
+        for i in 0 ... board.count - 1 {
+            for j in 0 ... board.first!.count - 1 {
+                if dfs(0, row: i, col: j) { return true }
+            }
+        }
+        return false
+    }
 }
 

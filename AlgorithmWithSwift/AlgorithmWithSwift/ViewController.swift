@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print(Solution.default.reverseWords("a good   example"))
+        print(Solution.default.exist([["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], "SEEW"))
     }
 
 }
@@ -1574,5 +1574,6 @@ func isSameTree(_ p: TreeNode?, _ q: TreeNode?) -> Bool {
     return isSameTree(p!.right, q!.right) && isSameTree(p!.left, q!.left);
 }
 
-
-
+func searchAndBackTracking(_ num: Int) {
+    
+}
