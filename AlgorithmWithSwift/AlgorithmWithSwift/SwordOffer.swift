@@ -830,25 +830,16 @@ class Solution {
     
     // https://leetcode.cn/problems/ju-zhen-zhong-de-lu-jing-lcof/
     func exist(_ board: [[Character]], _ word: String) -> Bool {
-        var visited: [[Bool]] = [[Bool]].init(
-            repeating: [Bool].init(
-                repeating: false,
-                count: board.first!.count),
-            count: board.count
-        )
-        var answer: [Character] = word.map { $0 }
+        var visited: [[Bool]] = board.map { $0.map{ _ in false } }
         let chars = word.map{ $0 }
         
         func dfs(_ depth: Int, row: Int, col: Int) -> Bool {
-            
-            
             if depth == word.count { return true }
             if row < 0 || row > board.count - 1 { return false }
             if col < 0 || col > board.first!.count - 1 { return false }
             if board[row][col] != chars[depth] { return false }
             
             if visited[row][col] == false {
-                answer[depth] = board[row][col]
                 visited[row][col] = true
                 let searched =
                 dfs(depth + 1, row: row - 1, col: col) ||
